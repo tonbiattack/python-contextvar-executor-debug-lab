@@ -1,0 +1,22 @@
+.F.                                                                      [100%]
+=================================== FAILURES ===================================
+__________ test_run_in_executor_keeps_request_id_for_sync_log_writer ___________
+
+    def test_run_in_executor_keeps_request_id_for_sync_log_writer() -> None:
+        """期待契約: 同期ログ処理でもリクエストIDを出力できる。"""
+        token = request_id.set("req-2026-001")
+        try:
+            seen_request_id = asyncio.run(read_in_executor())
+        finally:
+            request_id.reset(token)
+    
+>       assert seen_request_id == "req-2026-001"
+E       AssertionError: assert 'missing' == 'req-2026-001'
+E         
+E         - req-2026-001
+E         + missing
+
+tests/test_context_debug.py:30: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_context_debug.py::test_run_in_executor_keeps_request_id_for_sync_log_writer
+1 failed, 2 passed in 0.03s
