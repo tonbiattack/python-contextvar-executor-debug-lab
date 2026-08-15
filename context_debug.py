@@ -19,9 +19,8 @@ async def read_in_event_loop() -> str:
 
 
 async def read_in_executor() -> str:
-    """不具合経路: 低水準executor APIへ同期関数を直接渡す。"""
-    loop = asyncio.get_running_loop()
-    return await loop.run_in_executor(None, read_request_id)
+    """同期ログ処理を退避しつつ、呼び出し元のContextを引き継ぐ。"""
+    return await asyncio.to_thread(read_request_id)
 
 
 async def read_with_to_thread() -> str:
